@@ -1,13 +1,17 @@
 #include "Evento.h"
 
-Evento::Evento(string tipo, string ubicacion, string tema, int duracion) {
+
+Evento::Evento(string tipo, string ubicacion, string tema, int duracion, int codigoEvento) {
     this-> tipo = tipo;
     this-> ubicacion = ubicacion;
     this-> tema = tema;
     this-> duracion = duracion;
+    this-> codigoEvento = codigoEvento;
 }
 
-Evento::~Evento(){}
+Evento::~Evento(){} // destructor
+
+
 string Evento::getTipo() {
     return this-> tipo;
 }
@@ -20,3 +24,10 @@ string Evento::getTema() {
 int Evento::getDuracion() {
     return this-> duracion;
 }
+int Evento::getCodigoEvento() {
+    return this-> codigoEvento;
+}
+void Evento::asociarAsistente(Asistente* asistente) {
+    this->asistentes.push_back(asistente);
+}
+string Evento::devolverInfoEventoFormatoTxt() {}

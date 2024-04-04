@@ -9,7 +9,8 @@ class Concierto : public Evento {
         string generoMusical;
         string artista;
     public:
-        Concierto(string, string, string, int, string, string);
+        Concierto(string, string, string, int, int, string, string);
         string getGeneroMusical();
         string getArtista();
+        string devolverInfoEventoFormatoTxt();
 };

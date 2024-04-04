@@ -8,13 +8,15 @@ class Asistente {
         string tipo;
         string nombre;
         string rut;
-        string edad;
+        int edad;
         string ocupacion;
     public:
-        Asistente(string, string, string, string, string);
+        Asistente(string, string, string, int, string);
         string getTipo();
         string getNombre();
         string getRut();
-        string getEdad();
+        int getEdad();
         string getOcupacion();
+        virtual void imprimirTipo();
+        virtual string devolverInfoAsistenteFormatoTxt();
 };

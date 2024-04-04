@@ -1,5 +1,8 @@
 #pragma once
 #include <iostream>
+#include <vector>
+#include <random>
+#include "Asistente.h"
 
 using namespace std;
 
@@ -9,11 +12,18 @@ class Evento {
         string ubicacion;
         string tema;
         int duracion;
+        int codigoEvento;
+        vector<Asistente*> asistentes; 
 
     public:
-        Evento(string, string, string, int);
-        virtual string getTipo();
-        virtual string getUbicacion();
-        virtual string getTema();
-        virtual int getDuracion();
+        Evento(string, string, string, int, int);
+        ~Evento();
+        string getTipo();
+        string getUbicacion();
+        string getTema();
+        int getDuracion();
+        int getCodigoEvento();
+        int generarCodigoEventoAleatorio();
+        void asociarAsistente(Asistente*);
+        virtual string devolverInfoEventoFormatoTxt();
 };

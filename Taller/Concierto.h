@@ -13,4 +13,5 @@ class Concierto : public Evento {
         string getGeneroMusical();
         string getArtista();
         string devolverInfoEventoFormatoTxt();
+        void imprimirTipo();
 };

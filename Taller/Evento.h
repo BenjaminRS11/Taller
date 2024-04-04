@@ -26,4 +26,5 @@ class Evento {
         int generarCodigoEventoAleatorio();
         void asociarAsistente(Asistente*);
         virtual string devolverInfoEventoFormatoTxt();
+        virtual void imprimirTipo();
 };

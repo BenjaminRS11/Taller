@@ -30,4 +30,6 @@ int Evento::getCodigoEvento() {
 void Evento::asociarAsistente(Asistente* asistente) {
     this->asistentes.push_back(asistente);
 }
-string Evento::devolverInfoEventoFormatoTxt() {}
+string Evento::devolverInfoEventoFormatoTxt() { string vacio; return vacio;}
+
+void Evento::imprimirTipo(){}

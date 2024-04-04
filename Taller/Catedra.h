@@ -11,4 +11,5 @@ class Catedra : public Evento {
         Catedra(string, string, string, int, int, string);
         string getDocente();
         string devolverInfoEventoFormatoTxt();
+        void imprimirTipo();
 };

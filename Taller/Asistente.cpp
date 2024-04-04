@@ -26,4 +26,5 @@ string Asistente::getOcupacion() {
     return this-> ocupacion;
 }
 void Asistente::imprimirTipo(){}
-string Asistente::devolverInfoAsistenteFormatoTxt() {}
+
+string Asistente::devolverInfoAsistenteFormatoTxt() { string vacio; return vacio;}

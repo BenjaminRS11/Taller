@@ -13,6 +13,65 @@
 
 using namespace std;
 
+void desplegarListaEventos(vector<Evento*>& vectorEventos) {
+    cout<<"LISTA GENERAL DE EVENTOS:\n"<<endl;
+    for (Evento* evento : vectorEventos) {
+        evento->imprimirTipo();
+    }
+}
+
+void desplegarOpcionesInformes(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
+    int opcion = 0;
+    do {
+        cout<<"    1. Lista de eventos programados\n"<<endl;
+        cout<<"    2. Lista de asistentes registrados para cada evento\n"<<endl;
+        cout<<"    3. Números sobre la asistencia a los eventos\n"<<endl;
+        cout<<"    4. Detalles sobre los asistentes (Edad promedio y Ocupaciones más comunes)\n"<<endl;
+        cout<<"    5. Información sobre eventos (filtro por tipo de evento)\n"<<endl;
+        cout<<"    6. Volver atrás";
+        cout<<"Seleccione una opción: "<<endl;
+        cin>>opcion;
+        switch(opcion) {
+            case 1:
+                desplegarListaEventos(vectorEventos);        
+                break;
+            case 2:
+                
+                break;
+            case 3:
+                
+                break;
+            case 4:
+
+                break;
+            case 5:
+                
+                break;
+            case 6:
+                cout<<"Volviendo..."<<endl;
+                break;
+            default:
+                cout<<"Opción incorrecta, por favor ingrese una opción válida"<<"\n"<<endl;
+                cin.clear();
+                cin.ignore();
+        }
+    } while(opcion != 6);
+}
+
+void liberarMemoria(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
+    // Liberar memoria de los eventos
+    for (Evento* evento : vectorEventos) {
+        delete evento;
+    }
+    vectorEventos.clear();
+
+    // Liberar memoria de los asistentes
+    for (Asistente* asistente : vectorAsistentes) {
+        delete asistente;
+    }
+    vectorAsistentes.clear();
+}
+
 vector<string> split(const string& str, char delim) {
     vector<string> tokens;
     stringstream ss(str);
@@ -25,7 +84,41 @@ vector<string> split(const string& str, char delim) {
     return tokens;
 }
 
-void cargarDatosTxt(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
+void verificarDatosUnicosRepetidos(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
+    // Eliminar eventos duplicados
+    auto itEvento = vectorEventos.begin();
+    while (itEvento != vectorEventos.end()) {
+        auto itNext = itEvento;
+        ++itNext;
+        while (itNext != vectorEventos.end()) {
+            if ((*itEvento)->getCodigoEvento() == (*itNext)->getCodigoEvento()) {
+                delete *itNext;
+                itNext = vectorEventos.erase(itNext);
+            } else {
+                ++itNext;
+            }
+        }
+        ++itEvento;
+    }
+
+    // Eliminar asistentes duplicados
+    auto itAsistente = vectorAsistentes.begin();
+    while (itAsistente != vectorAsistentes.end()) {
+        auto itNext = itAsistente;
+        ++itNext;
+        while (itNext != vectorAsistentes.end()) {
+            if ((*itAsistente)->getRut() == (*itNext)->getRut()) {
+                delete *itNext;
+                itNext = vectorAsistentes.erase(itNext);
+            } else {
+                ++itNext;
+            }
+        }
+        ++itAsistente;
+    }
+}
+
+void actualizarDatosTxt(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
     string linea;
     string texto;
     string nuevaLineaEventos;
@@ -44,37 +137,54 @@ void cargarDatosTxt(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAs
     }
 }
 
-void leerDatosTxt() {
-    string texto;
+void leerDatosTxt(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
     string linea;
     ifstream archivo("datos.txt");
+    char delimitador = ',';
     while(getline(archivo,linea)) { 
-         texto += linea+"\n";
-         char delimitador = ',';
          vector<string> partes = split(linea, delimitador); 
          string tipo = partes[0];
-         if(partes.size() == 7) {  //logica para leer eventos
-            
-         }
-         else if(partes.size() == 6) { //logica para leer asistentes
 
-         }
+         if(tipo == "Concierto") {
+            string ubicacion = partes[1];
+            string tema = partes[2];
+            int duracion = stoi(partes[3]);
+            int codigoEvento = stoi(partes[4]);
+            string generoMusical = partes[5];
+            string artista = partes[6];
+            Evento* evento = new Concierto(tipo,ubicacion,tema,duracion,codigoEvento,generoMusical,artista);
+            vectorEventos.push_back(evento);
+        } else if(tipo == "Cátedra") {
+            string ubicacion = partes[1];
+            string tema = partes[2];
+            int duracion = stoi(partes[3]);
+            int codigoEvento = stoi(partes[4]);
+            string docente = partes[5];
+            Evento* evento = new Catedra(tipo,ubicacion,tema,duracion,codigoEvento,docente);
+            vectorEventos.push_back(evento);
+        } else if(tipo == "estudiante") {
+            string nombre = partes[1];
+            string rut = partes[2];
+            int edad = stoi(partes[3]);
+            string ocupacion = partes[4];
+            int semestre = stoi(partes[5]);
+            string carrera = partes[6];
+            Asistente* asistente = new Estudiante(tipo,nombre,rut,edad,ocupacion,semestre,carrera);
+            vectorAsistentes.push_back(asistente);
+        } else if(tipo == "asistente de concierto") {
+            string nombre = partes[1];
+            string rut = partes[2];
+            int edad = stoi(partes[3]);
+            string ocupacion = partes[4];
+            string tipoEntrada = partes[5];
+            Asistente* asistente = new AsistenteConcierto(tipo,nombre,rut,edad,ocupacion,tipoEntrada);
+            vectorAsistentes.push_back(asistente);
+        }
     }
-
-    // for (const string& parte : partes) {
-    //     cout << parte << endl;
-    // }
-
     archivo.close();
 }
 
-void cargarEventos(vector<Evento*>& vectorEventos) {
-
-    // if vectorEventos isEmpty {
-            //agregar todos los objetos, de lo contrario comparar los objetos que hay en el vector con los objetos que quiero añadir
-            // en este método y compruebo si son iguales mediante comparación de sus atributos únicos; Si son iguales entonces no agrego el
-            // objeto nuevo
-    //}
+void cargarEventos(vector<Evento*>& vectorEventos) {    
     vectorEventos.push_back(new Concierto("Concierto","Estadio Sanchez Rumuroso","Entretenimiento",90,3245,"Rock","Queen"));
     vectorEventos.push_back(new Concierto("Concierto","Teatro Caupolicán","Entretenimiento",90,3244,"Rock","Guns N' Roses"));
     vectorEventos.push_back(new Concierto("Concierto","Estadio Santa Laura","Entretenimiento",80,2145,"Rock","Nirvana"));
@@ -109,7 +219,6 @@ void cargarAsistentes(vector<Asistente*>& vectorAsistentes) {
     vectorAsistentes.push_back(new AsistenteConcierto("asistente de concierto","Jer","21.878.293-1",21,"Panadero","Normal"));
 }
 
-
 Evento* buscarEvento(int inputCodigoEvento, vector<Evento*>& vectorEventos) {
     for (Evento* e : vectorEventos){
         if(e->getCodigoEvento() == inputCodigoEvento) {
@@ -140,7 +249,7 @@ void registrarAsistente(vector<Asistente*>& vectorAsistentes, vector<Evento*>& v
                 cout<<"Ingrese nombre: "<<endl;
                 cin.ignore();
                 getline(cin, inputNombre);
-                cout<<"Ingrese rut: "<<endl;
+                cout<<"Ingrese rut (con puntos y guión): "<<endl;
                 getline(cin,inputRut);
                 cout<<"Ingrese edad: "<<endl;
                 cin>>inputEdad;
@@ -159,7 +268,7 @@ void registrarAsistente(vector<Asistente*>& vectorAsistentes, vector<Evento*>& v
                 cout<<"Ingrese nombre: "<<endl;
                 cin.ignore();
                 getline(cin, inputNombre);
-                cout<<"Ingrese rut: "<<endl;
+                cout<<"Ingrese rut (con puntos y guión): "<<endl;
                 getline(cin,inputRut);
                 cout<<"Ingrese edad: "<<endl;
                 cin>>inputEdad;
@@ -192,14 +301,30 @@ int generarCodigoEventoAleatorio() {
     return valorRandom;
 }
 
-void tipoEvento(vector<Evento*>& vectorEventos) {
+void tipoEvento(vector<Evento*>& vectorEventos, vector<int> codigosEventos) {
     int inputTipo;
     cout<<"\nIngrese tipo de evento: \n1) Concierto\n2) Cátedra\nSelecciona una opción:"<<endl;
     cin>>inputTipo;
     if(inputTipo == 1) {
         string inputUbicacion, inputTema;
         int inputDuracion;
+        bool esCodigoRepetido = false;
         int codigoEventoAleatorio = generarCodigoEventoAleatorio();
+        do{
+            esCodigoRepetido = false;
+            if(codigosEventos.empty()){
+                codigosEventos.push_back(codigoEventoAleatorio);
+            } 
+            else {
+                for (int i = 0; i < codigosEventos.size() ; i++) {
+                    if(codigosEventos[i] == codigoEventoAleatorio) {
+                        esCodigoRepetido = true;
+                        codigoEventoAleatorio = generarCodigoEventoAleatorio();
+                        break;
+                    }
+                }
+            }
+        } while(esCodigoRepetido == true);
 
         cout<<"Ingrese ubicación: "<<endl;
         cin.ignore();
@@ -240,7 +365,7 @@ void tipoEvento(vector<Evento*>& vectorEventos) {
     }
 }
 
-void menu(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {      
+void menu(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes, vector<int> codigosEventos) {      
     int opcion = 0;
     cout<<"--- Bienvenido/a al Menú ---"<<endl;
     do {
@@ -253,7 +378,7 @@ void menu(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) 
         cin>>opcion;
         switch(opcion) {
             case 1:
-                tipoEvento(vectorEventos);          
+                tipoEvento(vectorEventos,codigosEventos);          
                 break;
             case 2:
                 registrarAsistente(vectorAsistentes, vectorEventos);
@@ -278,21 +403,14 @@ void menu(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) 
 
 int main() {
     vector<Evento*> vectorEventos;
-    vector<Asistente*> vectorAsistentes;  
+    vector<Asistente*> vectorAsistentes;
+    vector<int> codigosEventos;
+    leerDatosTxt(vectorEventos,vectorAsistentes);
     cargarEventos(vectorEventos);
     cargarAsistentes(vectorAsistentes);
-    menu(vectorEventos, vectorAsistentes);
-    cargarDatosTxt(vectorEventos,vectorAsistentes);
-    for (int i = 0; i < vectorEventos.size(); i++)
-    {
-     cout<<vectorEventos[i]->getCodigoEvento()<<endl;
-     cout<<vectorEventos[i]->getTema()<<endl;  
-     cout<<vectorEventos[i]->getTipo()<<endl;     
-    }
-    for (int i = 0; i < vectorAsistentes.size(); i++)
-    {
-     cout<<vectorAsistentes[i]->getNombre()<<endl;
-     cout<<vectorAsistentes[i]->getTipo()<<endl;  
-    }
+    verificarDatosUnicosRepetidos(vectorEventos,vectorAsistentes);
+    menu(vectorEventos, vectorAsistentes,codigosEventos);
+    actualizarDatosTxt(vectorEventos,vectorAsistentes);
+    liberarMemoria(vectorEventos,vectorAsistentes);
     return 0;
 }   

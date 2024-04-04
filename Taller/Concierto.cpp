@@ -20,3 +20,7 @@ string Concierto::devolverInfoEventoFormatoTxt() {
     +this->getArtista();
     return linea;
 }
+void Concierto::imprimirTipo() {
+    cout<<"TIPO: "<<this->getTipo()<<" ; UBICACIÓN: "<<this->getUbicacion()<<" ; TEMA: "<<this->getTema()<<" ; DURACIÓN: "<<this->getDuracion()<<
+    " ; CODIGO EVENTO: "<<this->getCodigoEvento()<<" ; GENERO MUSICAL: "<<this->getGeneroMusical()<<" ; ARTISTA: "<<this->getArtista()<<endl;
+}

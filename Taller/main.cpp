@@ -10,7 +10,6 @@ vector<Asistente> vectorAsistentes;
 
 void crearEvento() {
     cout<<"Ingrese tipo: "<<endl;
-    string inputTipo;
     cin>>inputTipo;
     cout<<inputTipo<<endl;
 }

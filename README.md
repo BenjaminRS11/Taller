@@ -1,8 +1,10 @@
 # Taller
 Ejecución del código: 
                       
-                      cd Taller
-                      g++ -o main main.cpp Evento.cpp Asistente.cpp Concierto.cpp Catedra.cpp Estudiante.cpp AsistenteConcierto.cpp
+cd Taller
+
+g++ -o main main.cpp Evento.cpp Asistente.cpp Concierto.cpp Catedra.cpp Estudiante.cpp AsistenteConcierto.cpp
+
 Una vez compilado: ./main
 
 Integrantes: 

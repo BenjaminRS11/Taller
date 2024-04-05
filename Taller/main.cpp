@@ -13,6 +13,50 @@
 
 using namespace std;
 
+void desplegarDetallesAsistentes(vector<Asistente*>& vectorAsistentes) {
+    int sumadorEdades = 0;
+    int contadorEstudiantes = 0;
+    int contadorAsistenteConcierto = 0;
+    for(Asistente* asistente : vectorAsistentes) {
+        sumadorEdades += asistente->getEdad();
+        if(asistente->getTipo() == "estudiante") {
+            contadorEstudiantes += 1;
+        } else if(asistente->getTipo() == "asistente de concierto") {
+            contadorAsistenteConcierto += 1;
+        }
+    }
+    cout<<"Edad Promedio: "<<sumadorEdades/vectorAsistentes.size()<<endl;
+    cout<<"Cantidad de asistentes Estudiantes: "<<contadorEstudiantes<<endl;
+    cout<<"Cantidad de asistentes de Concierto: "<<contadorAsistenteConcierto<<endl;
+}
+
+void desplegarEstadisticasAsistencia(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
+    cout<<"Número total de asistentes: "<<vectorAsistentes.size()<<endl;
+    cout<<"Asistencia promedio por tipo de evento:\n"<<endl;
+
+    int sumadorAsistConcierto = 0;
+    int sumadorAsistCatedra = 0;
+    int contadorEventosConcierto = 0;
+    int contadorEventosCatedra = 0;
+    for(Evento* evento: vectorEventos) {
+        if(evento->getTipo() == "Concierto") {
+            sumadorAsistConcierto += evento->getAsistencia();
+            contadorEventosConcierto += 1;
+        } else if(evento->getTipo() == "Cátedra") {
+            sumadorAsistCatedra += evento->getAsistencia();
+            contadorEventosCatedra += 1;
+        }
+    }
+    cout<<"    Concierto: "<<sumadorAsistConcierto/contadorEventosConcierto<<endl;
+    cout<<"    Catedra: "<<sumadorAsistCatedra/contadorEventosCatedra<<endl;
+}
+
+void desplegarListaAsistentesPorEvento(vector<Evento*>& vectorEventos) {
+    for (Evento* evento : vectorEventos) {
+        evento->desplegarListaAsistentes();
+    }
+}
+
 void desplegarListaEventos(vector<Evento*>& vectorEventos) {
     cout<<"LISTA GENERAL DE EVENTOS:\n"<<endl;
     for (Evento* evento : vectorEventos) {
@@ -27,8 +71,7 @@ void desplegarOpcionesInformes(vector<Evento*>& vectorEventos, vector<Asistente*
         cout<<"    2. Lista de asistentes registrados para cada evento\n"<<endl;
         cout<<"    3. Números sobre la asistencia a los eventos\n"<<endl;
         cout<<"    4. Detalles sobre los asistentes (Edad promedio y Ocupaciones más comunes)\n"<<endl;
-        cout<<"    5. Información sobre eventos (filtro por tipo de evento)\n"<<endl;
-        cout<<"    6. Volver atrás";
+        cout<<"    5. Volver atrás"<<endl;
         cout<<"Seleccione una opción: "<<endl;
         cin>>opcion;
         switch(opcion) {
@@ -36,36 +79,31 @@ void desplegarOpcionesInformes(vector<Evento*>& vectorEventos, vector<Asistente*
                 desplegarListaEventos(vectorEventos);        
                 break;
             case 2:
-                
+                desplegarListaAsistentesPorEvento(vectorEventos);
                 break;
             case 3:
-                
+                desplegarEstadisticasAsistencia(vectorEventos,vectorAsistentes);
                 break;
             case 4:
-
+                desplegarDetallesAsistentes(vectorAsistentes);
                 break;
             case 5:
-                
-                break;
-            case 6:
-                cout<<"Volviendo..."<<endl;
+                cout<<"Volviendo..."<<endl;  
                 break;
             default:
                 cout<<"Opción incorrecta, por favor ingrese una opción válida"<<"\n"<<endl;
                 cin.clear();
                 cin.ignore();
         }
-    } while(opcion != 6);
+    } while(opcion != 5);
 }
 
 void liberarMemoria(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes) {
-    // Liberar memoria de los eventos
     for (Evento* evento : vectorEventos) {
         delete evento;
     }
     vectorEventos.clear();
 
-    // Liberar memoria de los asistentes
     for (Asistente* asistente : vectorAsistentes) {
         delete asistente;
     }
@@ -387,7 +425,7 @@ void menu(vector<Evento*>& vectorEventos, vector<Asistente*>& vectorAsistentes, 
                 desplegarListaAsistentes(vectorAsistentes);
                 break;
             case 4:
-
+                desplegarOpcionesInformes(vectorEventos,vectorAsistentes);
                 break;
             case 5:
                 cout<<"Saliendo..."<<endl;

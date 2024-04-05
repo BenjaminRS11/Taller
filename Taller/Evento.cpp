@@ -33,3 +33,15 @@ void Evento::asociarAsistente(Asistente* asistente) {
 string Evento::devolverInfoEventoFormatoTxt() { string vacio; return vacio;}
 
 void Evento::imprimirTipo(){}
+
+void Evento::desplegarListaAsistentes() {
+    for (Asistente* asistente : this->asistentes)
+    {   
+        cout<<"EVENTO "<<this->ubicacion<<" ; Código: "<<this->codigoEvento<<"\n NOMBRE: "<<asistente->getNombre()<<" ; RUT: "<<asistente->getRut()<<
+        " ; EDAD: "<<asistente->getEdad()<<" ; OCUPACIÓN: "<<asistente->getOcupacion()<<endl;
+    }
+}
+
+int Evento::getAsistencia() {
+    return this->asistentes.size();
+}

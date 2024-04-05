@@ -7,8 +7,6 @@ Concierto,Estadio Bicentenario de la Florida,Entretenimiento,70,3111,Pop,Bruno M
 Concierto,Movistar Arena,Entretenimiento,60,7772,Urbano Latino,Arcángel
 Concierto,Estadio Ester Roa Rebolledo,Entretenimiento,60,4445,Urbano Latino,Ozuna
 Cátedra,UCN G6-54,Educación,80,1113,Jorge Soto
-Concierto,micasaxdddddd,Entretenimiento,10,8881,trap,travis scott
-Concierto,lacasadelpablo,xd,30,8881,pop,xd
 estudiante,Pepe,21.333.434-3,20,Estudiante,4,ICCI
 estudiante,Sebastián,21.133.134-3,20,Estudiante,4,ICCI
 estudiante,Juan,21.323.232-2,19,Estudiante,4,ITI
